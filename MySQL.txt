@@ -1,0 +1,58 @@
+CREATE DATABASE gestao_bens_escolares;
+
+USE gestao_bens_escolares;
+
+-- Tabela de ambientes (portas com RFID ativo)
+CREATE TABLE ambientes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    descricao TEXT,
+    rfid_tag VARCHAR(50) UNIQUE NOT NULL,
+    localizacao VARCHAR(100),
+    data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Tabela de bens
+CREATE TABLE bens (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    descricao TEXT,
+    rfid_tag VARCHAR(50) UNIQUE NOT NULL,
+    categoria VARCHAR(50),
+    data_aquisicao DATE,
+    valor DECIMAL(10,2),
+    status ENUM('disponivel', 'em_uso', 'manutencao', 'descartado') DEFAULT 'disponivel'
+);
+
+-- Tabela de usuários
+CREATE TABLE usuarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    rfid_tag VARCHAR(50) UNIQUE,
+    cargo VARCHAR(50),
+    data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Tabela de permissões
+CREATE TABLE permissoes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    usuario_id INT NOT NULL,
+    nivel ENUM('leitura', 'operador', 'administrador') NOT NULL,
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
+);
+
+-- Tabela de movimentações
+CREATE TABLE movimentacoes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    bem_id INT NOT NULL,
+    origem_id INT,
+    destino_id INT NOT NULL,
+    usuario_id INT NOT NULL,
+    data_movimentacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    observacao TEXT,
+    FOREIGN KEY (bem_id) REFERENCES bens(id) ON DELETE CASCADE,
+    FOREIGN KEY (origem_id) REFERENCES ambientes(id) ON DELETE SET NULL,
+    FOREIGN KEY (destino_id) REFERENCES ambientes(id) ON DELETE CASCADE,
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
+);
