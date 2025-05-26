@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Movimentações{% endblock %}
+
+{% block content %}
+<h2>Histórico de Movimentações</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Data/Hora</th>
+            <th>Bem</th>
+            <th>Origem</th>
+            <th>Destino</th>
+            <th>Usuário</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for mov in movimentacoes %}
+        <tr>
+            <td>{{ mov.data_movimentacao.strftime('%d/%m/%Y %H:%M') }}</td>
+            <td>{{ mov.bem.nome }}</td>
+            <td>{{ mov.origem.nome if mov.origem else '-' }}</td>
+            <td>{{ mov.destino.nome }}</td>
+            <td>{{ mov.usuario.nome }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
