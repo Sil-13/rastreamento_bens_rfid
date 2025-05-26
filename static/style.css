@@ -1,0 +1,24 @@
+body {
+    padding-top: 20px;
+    background-color: #f8f9fa;
+}
+
+.table {
+    margin-top: 20px;
+}
+
+.alert {
+    margin-top: 20px;
+}
+
+.badge {
+    font-size: 0.9em;
+}
+
+.form-control, .form-select {
+    margin-bottom: 10px;
+}
+
+.btn {
+    margin-right: 5px;
+}
