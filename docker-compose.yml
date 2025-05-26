@@ -21,7 +21,7 @@ services:
       - MYSQL_ROOT_PASSWORD=senha
       - MYSQL_DATABASE=gestao_bens_escolares
     volumes:
-      - mysql_data:/var/lib/mysql
+      - ./db_scripts:/docker-entrypoint-initdb.d
 
   arduino_interface:
     build: .
