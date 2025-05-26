@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Lista de Bens{% endblock %}
+
+{% block content %}
+<h2>Lista de Bens</h2>
+<a href="{{ url_for('adicionar_bem') }}" class="btn btn-primary mb-3">Adicionar Bem</a>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>RFID Tag</th>
+            <th>Categoria</th>
+            <th>Status</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for bem in bens %}
+        <tr>
+            <td>{{ bem.id }}</td>
+            <td>{{ bem.nome }}</td>
+            <td>{{ bem.rfid_tag }}</td>
+            <td>{{ bem.categoria }}</td>
+            <td>
+                <span class="badge bg-{{ 'success' if bem.status == 'disponivel' else 'warning' }}">
+                    {{ bem.status }}
+                </span>
+            </td>
+            <td>
+                <a href="{{ url_for('visualizar_bem', id=bem.id) }}" class="btn btn-info btn-sm">Ver</a>
+                <a href="{{ url_for('editar_bem', id=bem.id) }}" class="btn btn-warning btn-sm">Editar</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

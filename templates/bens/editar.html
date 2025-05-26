@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Editar Bem{% endblock %}
+
+{% block content %}
+<h2>Editar Bem</h2>
+<form method="POST">
+    {{ form.hidden_tag() }}
+    
+    <div class="mb-3">
+        {{ form.nome.label(class="form-label") }}
+        {{ form.nome(class="form-control") }}
+    </div>
+    
+    <!-- Outros campos semelhantes ao adicionar.html -->
+    
+    <button type="submit" class="btn btn-primary">Atualizar</button>
+    <a href="{{ url_for('listar_bens') }}" class="btn btn-secondary">Cancelar</a>
+</form>
+{% endblock %}
