@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Relatório de Movimentações{% endblock %}
+
+{% block content %}
+<h2>Relatório de Movimentações</h2>
+
+<form method="GET" class="mb-4">
+    <div class="row">
+        <div class="col-md-4">
+            <label for="data_inicio" class="form-label">Data Início</label>
+            <input type="date" id="data_inicio" name="data_inicio" class="form-control" value="{{ request.args.get('data_inicio', '') }}">
+        </div>
+        <div class="col-md-4">
+            <label for="data_fim" class="form-label">Data Fim</label>
+            <input type="date" id="data_fim" name="data_fim" class="form-control" value="{{ request.args.get('data_fim', '') }}">
+        </div>
+        <div class="col-md-4 d-flex align-items-end">
+            <button type="submit" class="btn btn-primary">Filtrar</button>
+        </div>
+    </div>
+</form>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Data</th>
+            <th>Bem</th>
+            <th>Origem → Destino</th>
+            <th>Responsável</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for mov in movimentacoes %}
+        <tr>
+            <td>{{ mov.data_movimentacao.strftime('%d/%m/%Y') }}</td>
+            <td>{{ mov.bem.nome }} ({{ mov.bem.rfid_tag }})</td>
+            <td>
+                {{ mov.origem.nome if mov.origem else 'Externo' }} 
+                → 
+                {{ mov.destino.nome }}
+            </td>
+            <td>{{ mov.usuario.nome }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<a href="{{ url_for('gerar_relatorio') }}?{{ request.query_string.decode() }}&export=csv" class="btn btn-success">
+    Exportar para CSV
+</a>
+{% endblock %}
