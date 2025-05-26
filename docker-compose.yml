@@ -1,0 +1,37 @@
+# docker-compose.yml
+version: '3.8'
+
+services:
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+    environment:
+      - FLASK_ENV=development
+
+  db:
+    image: mysql:8.0
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=senha
+      - MYSQL_DATABASE=gestao_bens_escolares
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  arduino_interface:
+    build: .
+    command: python arduino_interface.py
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+    devices:
+      - /dev/ttyUSB0:/dev/ttyUSB0  # Ajuste para sua porta serial
+
+volumes:
+  mysql_data:
