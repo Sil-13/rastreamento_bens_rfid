@@ -1,1 +1,43 @@
+{% extends "base.html" %}
 
+{% block title %}Adicionar Usuário{% endblock %}
+
+{% block content %}
+<h2>Adicionar Novo Usuário</h2>
+<form method="POST">
+    {{ form.hidden_tag() }}
+    
+    <div class="mb-3">
+        {{ form.nome.label(class="form-label") }}
+        {{ form.nome(class="form-control") }}
+    </div>
+    
+    <div class="mb-3">
+        {{ form.email.label(class="form-label") }}
+        {{ form.email(class="form-control", type="email") }}
+    </div>
+    
+    <div class="mb-3">
+        {{ form.rfid_tag.label(class="form-label") }}
+        {{ form.rfid_tag(class="form-control") }}
+    </div>
+    
+    <div class="mb-3">
+        {{ form.cargo.label(class="form-label") }}
+        {{ form.cargo(class="form-control") }}
+    </div>
+    
+    <div class="mb-3">
+        {{ form.senha.label(class="form-label") }}
+        {{ form.senha(class="form-control", type="password") }}
+    </div>
+    
+    <div class="mb-3">
+        {{ form.confirmar_senha.label(class="form-label") }}
+        {{ form.confirmar_senha(class="form-control", type="password") }}
+    </div>
+    
+    <button type="submit" class="btn btn-primary">Salvar</button>
+    <a href="{{ url_for('listar_usuarios') }}" class="btn btn-secondary">Cancelar</a>
+</form>
+{% endblock %}
